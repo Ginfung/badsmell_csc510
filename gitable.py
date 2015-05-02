@@ -53,7 +53,7 @@ def secs(d0):
   return delta.total_seconds()
  
 def dump1(u,issues):
-  token = "INSERT TOKEN HERE" # <===
+  token = "d057673dde4c98b281d1a5670d01f376e364d9db" # <===
   request = urllib2.Request(u, headers={"Authorization" : "token "+token})
   v = urllib2.urlopen(request).read()
   w = json.loads(v)
@@ -61,7 +61,7 @@ def dump1(u,issues):
   for event in w:
     issue_id = event['issue']['number']
     if not event.get('label'): continue
-    created_at = secs(event['created_at'])
+    created_at = event['created_at']
     action = event['event']
     label_name = event['label']['name']
     user = event['actor']['login']
@@ -90,7 +90,7 @@ def launchDump():
   page = 1
   issues = dict()
   while(True):
-    doNext = dump('https://api.github.com/repos/opensciences/opensciences.github.io/issues/events?page=' + str(page), issues)
+    doNext = dump('https://api.github.com/repos/smartSE/constraintAnalysis/issues/events?page=' + str(page), issues)
     print("page "+ str(page))
     page += 1
     if not doNext : break
@@ -105,3 +105,4 @@ launchDump()
   
    
  
+
