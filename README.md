@@ -56,17 +56,17 @@ The following table shows how much data I collected for the later analysis.
 |M1|1428267799|
 
 The actual collected data can be found here:  
-* [project1](http://commit/proj1.csv)
-* [project2](http://commit/proj2.csv)
-* [project3](http://commit/proj3.csv)
+* [project1](https://github.com/smartSE/badsmell/blob/master/commit/proj1.csv)
+* [project2](https://github.com/smartSE/badsmell/blob/master/commit/proj2.csv)
+* [project3](https://github.com/smartSE/badsmell/blob/master/commit/proj3.csv)
 
 The commit record mainly focuses on the commit history during the development of software. It contains the committer, commit time.
 
 
 ## 6.PART I. Feature Detection and Results
 
-**1.Commit distribution for the whole team
-The commit distribution can be fetched through the dataset 1(commit record). At this time, I ignore the committer. Since all of the times are represented by the epoch seconds in dataset1. Modification for these time is needed. I need to count the total number of weekly commits. The statistic method is as follows. Detail code can be found [here](http://getCommitDis)
+** 1.Commit distribution for the whole team ** 
+The commit distribution can be fetched through the dataset 1(commit record). At this time, I ignore the committer. Since all of the times are represented by the epoch seconds in dataset1. Modification for these time is needed. I need to count the total number of weekly commits. The statistic method is as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/commitDis.py)
 
 ```python
 csvfile = file('proj2.csv','rb')
@@ -104,7 +104,7 @@ The following figures shows the result for the commit distribution of these grou
 ![](./commit/R_commit_dis_g2.PNG)
 ![](./commit/R_commit_dis_g2.PNG)
 
-**2.Commit for a single person
+** 2.Commit for a single person **  
 
 ## 7.PARTII. Bad Smells Detection and Results
 
