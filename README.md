@@ -40,6 +40,7 @@ All of the results are stored in different spreadsheets. These spreadsheets are 
 
 ## 4.Data
 The following table shows how much data I collected for the later analysis.
+
 |No|Feature|G1|G2|G3|
 |------|-------|--------------|--------------|--------------|
 |1|Commit distribution|12|12|12|
