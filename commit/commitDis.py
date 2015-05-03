@@ -26,73 +26,123 @@ def secs(d0):
   delta = d - epoch
   return delta.total_seconds()
 
-def dump1(u,commits,csvwriter):
-  f = open("../token.info","r")
-  token = f.readline().strip('\n')
-  f.close()
-  request = urllib2.Request(u, headers={"Authorization" : "token "+token})
-  v = urllib2.urlopen(request).read()
-  w = json.loads(v)
-  if not w: return False
-  for event in w:
-    user = event['author']['login']
-    print(user)
-    commit_at = event['commit']['committer']['date']
-    commit_at = secs(commit_at)
-    print(commit_at)
-    csvwriter.writerows([[user,commit_at]])
-  return True
-  
 
-def dump(u, commits,csvwriter):
-  try:
-    return dump1(u, commits,csvwriter)
-  except Exception as e: 
-    print(e)
-    print("Contact TA")
-    return False
+#project 0
+csvfile = file('proj0.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+for line in reader:
+   [a,b] = line
+   t.append(int(float(b)))
+t.sort()
+week = []
+total_week = (t[-1]-t[0])/(7*24*3600)
+end = []
+for i in range(total_week):
+   end.append(t[0]+(i+1)*7*24*3600)
 
-def launchDump(pro_name,csvwriter):
-  page = 1
-  commits = dict()
-  while(True):
-    doNext = dump('https://api.github.com/repos/' + pro_name + '/commits?page=' + str(page), commits,csvwriter)
-    #print("page "+ str(page))
-    page += 1
-    if not doNext : break
-    
+c = 0
+for x in t:
+   if  x < end[0]:
+      c += 1
+week.append(c)
 
-pf = open("../proname.info","r")
+for alpha in range(1,total_week):
+   c = 0
+   for x in t:
+      if x >= end[alpha-1] and x < end[alpha]:
+          c+= 1
+   week.append(c)
+print(week)
+csvfile.close()
 
-b = open('proj0.csv','wb')
-b.truncate()
-a = csv.writer(b)
-launchDump(pf.readline().strip('\n'),a)
-print("===============END OF THE PROJECT0========================")
-b.close()
+#project 1
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+for line in reader:
+   [a,b] = line
+   t.append(int(float(b)))
+t.sort()
+week = []
+total_week = (t[-1]-t[0])/(7*24*3600)
+end = []
+for i in range(total_week):
+   end.append(t[0]+(i+1)*7*24*3600)
 
-b = open('proj1.csv','wb')
-b.truncate()
-a = csv.writer(b)
-launchDump(pf.readline().strip('\n'),a)
-print("===============END OF THE PROJECT1========================")
-b.close()
+c = 0
+for x in t:
+   if  x < end[0]:
+      c += 1
+week.append(c)
 
-b = open('proj2.csv','wb')
-b.truncate()
-a = csv.writer(b)
-launchDump(pf.readline().strip('\n'),a)
-print("===============END OF THE PROJECT2========================")
-b.close()
+for alpha in range(1,total_week):
+   c = 0
+   for x in t:
+      if x >= end[alpha-1] and x < end[alpha]:
+          c+= 1
+   week.append(c)
+print(week)
+csvfile.close()
 
-b = open('proj3.csv','wb')
-b.truncate()
-a = csv.writer(b)
-launchDump(pf.readline().strip('\n'),a)
-print("===============END OF THE PROJECT3========================")
-b.close()
-  
+#project 2
+csvfile = file('proj2.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+for line in reader:
+   [a,b] = line
+   t.append(int(float(b)))
+t.sort()
+week = []
+total_week = (t[-1]-t[0])/(7*24*3600)
+end = []
+for i in range(total_week):
+   end.append(t[0]+(i+1)*7*24*3600)
 
-pf.close()
- 
+c = 0
+for x in t:
+   if  x < end[0]:
+      c += 1
+week.append(c)
+
+for alpha in range(1,total_week):
+   c = 0
+   for x in t:
+      if x >= end[alpha-1] and x < end[alpha]:
+          c+= 1
+   week.append(c)
+print(week)
+csvfile.close()
+
+#project 3
+csvfile = file('proj3.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+for line in reader:
+   [a,b] = line
+   t.append(int(float(b)))
+t.sort()
+week = []
+total_week = (t[-1]-t[0])/(7*24*3600)
+end = []
+for i in range(total_week):
+   end.append(t[0]+(i+1)*7*24*3600)
+
+c = 0
+for x in t:
+   if  x < end[0]:
+      c += 1
+week.append(c)
+
+for alpha in range(1,total_week):
+   c = 0
+   for x in t:
+      if x >= end[alpha-1] and x < end[alpha]:
+          c+= 1
+   week.append(c)
+print(week)
+csvfile.close()
+
+
+
 

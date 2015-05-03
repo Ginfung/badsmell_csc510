@@ -43,29 +43,70 @@ The following table shows how much data I collected for the later analysis.
 
 |No|Feature|G1|G2|G3|
 |------|-------|--------------|--------------|--------------|
-|1|Commit distribution|510|182|170|
-|2|Comments for commit|510|182|170|
-|3|Super leader|510|182|170|
-|4|Passenger|510|182|170|
-|5|No responded issue|1|1|1|
-|6|Issue creator distribution|1|1|1|
-|7|Issue creation time distribution|1|1|1|
-|8|Issue Labels|1|1|1|
-|9|Unassigned issue|1|1|1|
-|10|Label with serial number|1|1|1|
-|11|Overdue milestones|1|1|1|
-|12|Late-defined milestones|1|1|1|
-|13|Overlap milestones|1|1|1|
+|1|Commit Record|510|182|170|
+|2|s|s|s|s|
 
 ## 5.Data Samples
 
-## 6.Feature Detection and Results
+**1.Commit record**
 
-## 7.Feature Detection Results
+|Committer|Commit time(epoch secs)|
+|---------|-----------------------|
+|M0|1428442378|
+|M1|1428267799|
 
-## 8.Bad Smells Detector
+The actual collected data can be found here:  
+* [project1](http://commit/proj1.csv)
+* [project2](http://commit/proj2.csv)
+* [project3](http://commit/proj3.csv)
 
-## 9.Bad Smells Results
+The commit record mainly focuses on the commit history during the development of software. It contains the committer, commit time.
+
+
+## 6.PART I. Feature Detection and Results
+
+**1.Commit distribution for the whole team
+The commit distribution can be fetched through the dataset 1(commit record). At this time, I ignore the committer. Since all of the times are represented by the epoch seconds in dataset1. Modification for these time is needed. I need to count the total number of weekly commits. The statistic method is as follows. Detail code can be found [here](http://getCommitDis)
+
+```python
+csvfile = file('proj2.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+for line in reader:
+   [a,b] = line
+   t.append(int(float(b)))
+t.sort()
+week = []
+total_week = (t[-1]-t[0])/(7*24*3600)
+end = []
+for i in range(total_week):
+   end.append(t[0]+(i+1)*7*24*3600)
+
+c = 0
+for x in t:
+   if  x < end[0]:
+      c += 1
+week.append(c)
+
+for alpha in range(1,total_week):
+   c = 0
+   for x in t:
+      if x >= end[alpha-1] and x < end[alpha]:
+          c+= 1
+   week.append(c)
+print(week)
+csvfile.close()
+```
+
+RESULT:  
+The following figures shows the result for the commit distribution of these groups.
+![](./commit/R_commit_dis_g1.PNG)
+![](./commit/R_commit_dis_g2.PNG)
+![](./commit/R_commit_dis_g2.PNG)
+
+**2.Commit for a single person
+
+## 7.PARTII. Bad Smells Detection and Results
 
 ## 10.Early Warning
 
