@@ -65,7 +65,8 @@ The commit record mainly focuses on the commit history during the development of
 
 ## 6.PART I. Feature Detection and Results
 
-** 1.Commit distribution for the whole team ** 
+**1.Commit distribution for the whole team**
+
 The commit distribution can be fetched through the dataset 1(commit record). At this time, I ignore the committer. Since all of the times are represented by the epoch seconds in dataset1. Modification for these time is needed. I need to count the total number of weekly commits. The statistic method is as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/commitDis.py)
 
 ```python
@@ -104,7 +105,9 @@ The following figures shows the result for the commit distribution of these grou
 ![](./commit/R_commit_dis_g2.PNG)
 ![](./commit/R_commit_dis_g2.PNG)
 
-** 2.Commit for a single person **  
+**2.Commit for a single person** 
+
+ 
 
 ## 7.PARTII. Bad Smells Detection and Results
 
