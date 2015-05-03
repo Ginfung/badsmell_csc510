@@ -39,5 +39,31 @@ I defined a mapping method to substitute the real names. It was simply applying 
 All of the results are stored in different spreadsheets. These spreadsheets are in CSV format, which is easily written by format and analyzed by EXCEL. All of the figures in this repo were created by MS Excel. 
 
 ## 4.Data
+The following table shows how much data I collected for the later analysis.
+|No|Feature|G1|G2|G3|
+|------|-------|--------------|--------------|--------------|
+|1|Commit distribution|12|12|12|
+|2|Comments for commit|1|1|1|
+|3|Super leader|1|1|1|
+|4|Passenger|1|1|1|
+|5|No responded issue|1|1|1|
+|6|Issue creator distribution|1|1|1|
+|7|Issue creation time distribution|1|1|1|
+|8|Issue Labels|1|1|1|
+|9|Unassigned issue|1|1|1|
+|10|Label with serial number|1|1|1|
+|11|Overdue milestones|1|1|1|
+|12|Late-defined milestones|1|1|1|
+|13|Overlap milestones|1|1|1|
 
+## 5.Data Samples
 
+## 6.Feature Detection
+
+## 7.Feature Detection Results
+
+## 8.Bad Smells Detector
+
+## 9.Early Warning
+
+## 10.Early Warning Results
