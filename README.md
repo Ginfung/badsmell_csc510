@@ -43,10 +43,10 @@ The following table shows how much data I collected for the later analysis.
 
 |No|Feature|G1|G2|G3|
 |------|-------|--------------|--------------|--------------|
-|1|Commit distribution|12|12|12|
-|2|Comments for commit|1|1|1|
-|3|Super leader|1|1|1|
-|4|Passenger|1|1|1|
+|1|Commit distribution|510|182|170|
+|2|Comments for commit|510|182|170|
+|3|Super leader|510|182|170|
+|4|Passenger|510|182|170|
 |5|No responded issue|1|1|1|
 |6|Issue creator distribution|1|1|1|
 |7|Issue creation time distribution|1|1|1|
@@ -59,12 +59,14 @@ The following table shows how much data I collected for the later analysis.
 
 ## 5.Data Samples
 
-## 6.Feature Detection
+## 6.Feature Detection and Results
 
 ## 7.Feature Detection Results
 
 ## 8.Bad Smells Detector
 
-## 9.Early Warning
+## 9.Bad Smells Results
 
-## 10.Early Warning Results
+## 10.Early Warning
+
+## 11.Early Warning Results
