@@ -331,9 +331,10 @@ csvfile.close()
 ```
 
 RESULT:
-![](./issue/labelDis_g1.PNG)
-![](./issue/labelDis_g2.PNG)
-![](./issue/labelDis_g3.PNG)
+
+![](./issue/labelDis_g1.PNG)  
+![](./issue/labelDis_g2.PNG)  
+![](./issue/labelDis_g3.PNG)  
 
 **7.Number of not labelled issue**
 
@@ -388,7 +389,7 @@ Project: 0
 
 **9.Label name**
 
-Here we focus on the name of labels. A meaningful name can promote the developing process. The label name can be collected as the follow function. Detail code can be found [here](http://sss)
+Here we focus on the name of labels. A meaningful name can promote the developing process. The label name can be collected as the follow function. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/label/labelName.py)
 
 ```python
 csvfile = file('proj1.csv','rb')
