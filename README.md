@@ -44,7 +44,8 @@ The following table shows how much data I collected for the later analysis.
 |No|Data set|G1|G2|G3|
 |------|-------|--------------|--------------|--------------|
 |1|Commit Record|510|182|170|
-|2|s|s|s|s|
+|2|Issue Record|69|93|78|
+|3|Milestone Record|5|5|7|
 
 ## 5.Data Samples
 
@@ -62,6 +63,33 @@ The actual collected data can be found here:
 
 The commit record mainly focuses on the commit history during the development of software. It contains the committer, commit time.
 
+**2.Issue record**
+
+|Issue Id|State|Creator|Create time|Labels|Milestone due|Last update|
+|--------|-----|-------|-----------|------|-------------|-----------|
+|65|closed|M2|1428200078|['enhancement']|1428120000|1428205800|
+|66|closed|M3|1428250364|['develop']|-1|1428373148|
+
+The actual collected data can be found here:  
+* [project1](https://github.com/smartSE/badsmell/blob/master/issue/proj1.csv)
+* [project2](https://github.com/smartSE/badsmell/blob/master/issue/proj2.csv)
+* [project3](https://github.com/smartSE/badsmell/blob/master/issue/proj3.csv)
+
+The issue records are used to trace the issue publication in the development of the software. All times with '-1' indicates "not applicable"  
+
+**3.Milestone record**
+
+|Milestone id|Title|Create time|Due|
+|------------|-----|-----------|---|
+|2|V1|1424905758|1425960000|
+|3|Final|1424820465|1428206400|
+
+The actual collected data can be found here:  
+* [project1](https://github.com/smartSE/badsmell/blob/master/milestone/proj1.csv)
+* [project2](https://github.com/smartSE/badsmell/blob/master/milestone/proj2.csv)
+* [project3](https://github.com/smartSE/badsmell/blob/master/milestone/proj3.csv)
+
+Milestone is an important develop tool. All times with '-1' indicates "not applicable/not set"  
 
 ## 6.PART I. Feature Detection and Results
 
@@ -111,11 +139,266 @@ Another important feature from the commit history is the commit rate for one sin
 
 The code for fetching commit rate for each person can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/personalCommitRate.py).  
 
+RESULT:  
 The following figures shows the commit rate for each person.
 
 ![](./commit/personal_commit_g1.PNG)
 ![](./commit/personal_commit_g2.PNG)
 ![](./commit/personal_commit_g3.PNG)
+
+**3.Not in-time issue**
+
+Not in-time issue is the issue which is updated or not closed after the milestone due. Milestone is an important time point to control the develop process; if one can not finish the milestone, that means: 1) they underestimated the project, or 2) there are some problems during their coding and testing process.  
+
+The following function is used to count the not in-time issues. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/issue/notintime.py)
+
+```python
+#project 1
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+count = 0
+for line in reader:
+   [a,b,c,d,e,f,g] = line
+   if b == 'open':
+      count += 1
+      continue
+   if int(float(f)) > 0 and int(float(g)) > int(float(f)):
+      count += 1
+print(count)
+csvfile.close()
+```
+
+RESULT:  
+```
+Project 1: 28  
+Project 2: 51  
+Project 3: 11
+```
+
+**4.Issue creator distribution**
+
+Here we want to see the distribution of issue creator. During the develop process, any problems should be raised in the issue. Issue is a fantastic way to communicate within a team. The issue creator distribution can be count as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/issue/issueCreatorDis.py)
+
+```python
+#project 1
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+creator = set([])
+for line in reader:
+   [a,b,c,d,e,f,g] = line
+   creator.add(c)
+
+dis = []
+for mm in creator:
+   count = 0
+   csvfile.seek(0)
+   for line in reader:
+      [a,b,c,d,e,f,g] = line
+      if c == mm:
+	  count += 1
+   dis.append(count)
+print(dis)
+csvfile.close()
+
+```
+RESULT:
+Project 1: [48, 8, 13]  
+Project 2: [1, 54, 7, 19, 1]
+Project 3: [50, 12, 0, 16]
+```
+
+**5.Weekly issue distribution**
+
+Weekly issue distribution is anther important issue too. From Feb 1, 2015, we counts the number of issues for the following weeks. The code to fetch this feature is as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/issue/weeklyIssueDis.py)
+
+```python
+#project 1
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+week = []
+for line in reader:
+   [a,b,c,d,e,f,g] = line
+   x = long(d)
+   week.append(int(x/604800-2351))
+week.sort()
+frequency = []
+for i in range(1,max(week)):
+   count = 0
+   for p in week:
+      if p == i:
+          count += 1
+   frequency.append(count)
+print(frequency)
+csvfile.close()
+
+```
+
+RESULT:  
+![](./issue/weekIssueDis_g1.PNG)
+![](./issue/weekIssueDis_g2.PNG)
+![](./issue/weekIssueDis_g3.PNG)
+
+
+**6.Labelled issue distribution**
+
+Now we focus on the labels. Through the data set 2(issue record), we can fetch the label for the issue. But whether each label has the same number of issues. Some not-used labels or miner used labels are not helpful. This feature counts the number of labels with some specific issue. The function for fetching this feature is as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/issue/labelsDis.py)
+
+```python
+def splits(e):
+  result = []
+  strs = ''
+  for c in e:
+     if c != ',' and c != '[' and c != ']' and c != '\'':
+	strs += c
+     else:
+        if len(strs) >0 and strs != ' ':
+           result.append(strs)
+	strs = ''	
+  return result
+
+
+
+print("ISSUE CREATOR DISTRIBUTION===========")
+#project 1
+csvfile = file('proj1.csv','rb')
+csvfile2 = file('labelDis1.csv','w')
+reader = csv.reader(csvfile)
+writer = csv.writer(csvfile2)
+t = []
+labels = set([])
+for line in reader:
+  [a,b,c,d,e,f,g] = line
+  for ll in splits(e):
+      labels.add(ll)
+
+for la in labels:
+   count = 0
+   csvfile.seek(0)
+   for line in reader:
+      [a,b,c,d,e,f,g] = line
+      for ll in splits(e):
+           if ll == la:
+               count += 1
+   writer.writerows([[la,count]])
+csvfile.close()
+```
+
+RESULT:
+![](./issue/labelDis_g1.PNG)
+![](./issue/labelDis_g2.PNG)
+![](./issue/labelDis_g3.PNG)
+
+**7.Number of not labelled issue**
+
+The tag(label) in one issue can help fasten others to find the proper issue, thus promote the communication within a team. The not-labelled issues are not a good thing. In this feature, we want to count the number of not labelled issues. Function for fetching is as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/issue/nolabelIssue.py)
+
+```python
+#project 1
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+labels = set([])
+count = 0
+for line in reader:
+  [a,b,c,d,e,f,g] = line
+  if e == '[]':
+      count += 1
+print(count)
+csvfile.close()
+```
+
+RESULT:
+```
+Project 1: 6  
+Project 2: 26  
+Project 3: 36
+```
+
+**8.Not closed issue**
+
+One issue should be closed after it is solved or the developers do not plan to solve it. The open issue indicates the problem to be figure out. Now all of the projects are ended. The issues should be all closed. This feature count the issue which has not yet closed. The function is as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/issue/nocloseIssue.py)
+
+```python
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+labels = set([])
+count = 0
+for line in reader:
+  [a,b,c,d,e,f,g] = line
+  if b != 'closed':
+      count += 1
+print(count)
+csvfile.close()
+```
+
+RESULT:
+```
+Project: 1  
+Project: 0  
+Project: 0
+```
+
+**9.Label name**
+
+Here we focus on the name of labels. A meaningful name can promote the developing process. The label name can be collected as the follow function. Detail code can be found [here](http://sss)
+
+```python
+```
+
+RESULT:  
+```
+```
+
+**10.Number of issues without milestone**
+
+The milestone set up a deadline for solving the issue. This is a very helpful tool. This feature counts the number of issues without milestones. The following function is corresponded to this. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/issue/nomilestone.py)
+
+```python
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+t = []
+labels = set([])
+count = 0
+for line in reader:
+  [a,b,c,d,e,f,g] = line
+  if f == '-1':
+      count += 1
+print(count)
+csvfile.close()
+```
+
+RESULT:  
+```
+Project: 13  
+Project: 29   
+Project: 42  
+```
+
+**11.Number of milestones**
+
+This feature is to get how many milestones the developers have created. Typically one milestone represents one developing step. Too less milestones is not a good thing. The number of milestones can be fetched as follows. Detail code can be found [here](http://sss)
+
+```python
+```
+
+RESULT:
+```
+```
+
+**12.Milestone duration**
+
+For each milestone, this feature indicates the milestone duration. Either too long or too short duration is not good. This feature can be fetched by the following function. Detail code can be found [here](http://sss)
+
+```python
+```
+
+RESULT:
+```
+```
 
 
 ## 7.PARTII. Bad Smells Detector and Results
@@ -158,7 +441,7 @@ Opposite to the super leader, the passenger in a team does more harm in the proj
 The commit for him is less than 20% of the total commit; OR  
 There were many weeks that they did not have any commit
 
-The detector for the passenger can be found [here](http://passengerdetector)
+The detector for the passenger can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/passenger.py)
 
 ```python
 def isPassenger(weekCommit, totalCommit)

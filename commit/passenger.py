@@ -1,4 +1,4 @@
-def isPassenger(weekCommit, totalCommit)
+def isPassenger(weekCommit, totalCommit):
     if sum(weekCommit) < totalCommit * 0.2:
         print("Low commit proportion. Possible passenger!")
 	return True
