@@ -481,7 +481,7 @@ V2:26
 System test and Report:24  
 Final release:10  
 ===============  
-Test points:-16497  
+Test points:2 
 Basic Service and Test:10  
 Small Scale Test and Comparison:34  
 Large Scale Test:39  
@@ -617,7 +617,7 @@ All teams ignored this!!
 
 **5.Poor Issue management**
 
-Issue management is essential too. They should be closed in time. Also, one should set up a label for it. Consequently, I wrote a detector for detecting poor issues. The [code](http:??) as follows:  
+Issue management is essential too. They should be closed in time. Also, one should set up a label for it. Consequently, I wrote a detector for detecting poor issues. The [code](https://github.com/smartSE/badsmell/blob/master/funcs/poorLabel.py) as follows:  
 
 ```python
 def poorIssueDetector(totalIssue, notLabelIssue, notcloseIssue):
@@ -635,7 +635,26 @@ Project 2: Normal
 Project 3: Poor issue management(too many non-labelled issues)
 ```
 
-**6.Lacking milestones**
+**6.Poor milestones setting**
 
+This detector detects two things: 1) lack of milestones; 2) the duration for the milestone is too long.  
+This is a 10-weeks project. It's suggested to set a milestone at least every three weeks(21 days).  
+The following [function](https://github.com/smartSE/badsmell/blob/master/funcs/poorMilestone.py) is the detector.
+
+```python
+def poorMileStoneDetector(mileStoneDurations):
+    if len(mileStoneDurations) < 5:
+	return True
+    if max(mileStoneDurations) > 21:
+        return True
+    return False
+```
+
+RESULT:
+```
+Project 1: containing long-time milestone  
+Project 2: containing long-time milestone  
+Project 3: normal
+```
 
 ## 8.PARTIII. Early Warning and Results
