@@ -658,3 +658,43 @@ Project 3: normal
 ```
 
 ## 8.PARTIII. Early Warning and Results
+
+**1.Lazy guy early warning**
+
+According to the upper bad smell detector, no one in the team did nothing. But there always exist one or two lazy guys in a team. In this subsection, I will introduce how to detect the lazy guy at the early life-cycle of developing.
+
+In the early earning analyse, we can't use the whole project data. But using the accumulated data or experience is acceptable.  
+
+To detect the lazy guy, we first check how many ZERO commits one guy has. This [function](https://???) can check this.  
+Also, we need to count the weeks for which the number of one guy's commit is far less that that of others. This [function](http://~~~) can check this.
+
+Finally, we have accumulated issue publication for a guy as time passes by. This is not included in the features. It can be calculated by this [code](http://~~~~)
+
+If one guy performs badly in the view of upper three points, very likely he is a lazy guy.
+
+RESULT:
+```
+In the Group1 (data recorded at the end of fourth week)
+|Member|Zero commits|Obvious Commit|Less Issues|
+|------|------------|--------------|-----------|
+|M1|True|False|False|
+|M2|True|False|False|
+|M3|True|True|True|
+```
+
+Please notice member 3: he performed bad in the first four week. As expected, he was a passenger (basing on the bad smell detector in Part II)!
+
+One more example: let's look at group 3 (data recorded at the end of fourth week)
+
+```
+|Member|Zero commits|Obvious Commit|Less Issues|
+|------|------------|--------------|-----------|
+|M1|False|False|False|
+|M2|False|False|False|
+|M3|True|True|True|
+|M4|True|True|True|
+```
+Again please notice member 3 and 4: they performed bad in the first four week. As expected, both of them were possible passengers(basing on the bad smell detector in Part II)!
+
+
+**2.Lack of communication early warning**
