@@ -277,10 +277,10 @@ for i in range(1,max(week)):
    frequency.append(count)
 print(frequency)
 csvfile.close()
-
 ```
 
-RESULT:  
+RESULT:
+
 ![](./issue/weekIssueDis_g1.PNG)
 ![](./issue/weekIssueDis_g2.PNG)
 ![](./issue/weekIssueDis_g3.PNG)
