@@ -1,0 +1,9 @@
+bug,https://api.github.com/repos/g3/labels/bug,fc2929
+enhancement,https://api.github.com/repos/g3/labels/enhancement,84b6eb
+help wanted,https://api.github.com/repos/g3/labels/help%20wanted,159818
+task,https://api.github.com/repos/g3/labels/task,fbca04
+team discussion,https://api.github.com/repos/g3/labels/team%20discussion,eb6420
+Training,https://api.github.com/repos/g3/labels/Training,bfd4f2
+generate script,https://api.github.com/repos/g3/labels/generate%20script,0052cc
+Testing,https://api.github.com/repos/g3/labels/Testing,006b75
+question,https://api.github.com/repos/g3/labels/question,d4c5f9

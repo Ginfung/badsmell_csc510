@@ -1,0 +1,8 @@
+bug,https://api.github.com/repos/g2/labels/bug,fc2929
+Design Problem,https://api.github.com/repos/g2/labels/Design%20Problem,cccccc
+fixed,https://api.github.com/repos/g2/labels/fixed,84b6eb
+help wanted,https://api.github.com/repos/g2/labels/help%20wanted,159818
+Test Problem,https://api.github.com/repos/g2/labels/Test%20Problem,e6e6e6
+info!,https://api.github.com/repos/g2/labels/info!,cc317c
+wontfix,https://api.github.com/repos/g2/labels/wontfix,ffffff
+Configure Problem,https://api.github.com/repos/g2/labels/Configure%20Problem,5.32E+10

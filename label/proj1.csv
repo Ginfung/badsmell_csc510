@@ -1,0 +1,11 @@
+bug,https://api.github.com/repos/g1/labels/bug,fc2929
+duplicate,https://api.github.com/repos/g1/labels/duplicate,cccccc
+enhancement,https://api.github.com/repos/g1/labels/enhancement,207de5
+help wanted,https://api.github.com/repos/g1/labels/help%20wanted,e11d21
+invalid,https://api.github.com/repos/g1/labels/invalid,e6e6e6
+question,https://api.github.com/repos/g1/labels/question,cc317c
+wontfix,https://api.github.com/repos/g1/labels/wontfix,ffffff
+test,https://api.github.com/repos/g1/labels/test,9800
+develop,https://api.github.com/repos/g1/labels/develop,fbca04
+design,https://api.github.com/repos/g1/labels/design,5.32E+10
+Solved,https://api.github.com/repos/g1/labels/Solved,60b044

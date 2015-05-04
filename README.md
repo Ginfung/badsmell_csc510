@@ -8,27 +8,40 @@ This section will introduce how to collect the data or records during the develo
 
 All of the collection codes are modified from [gitable.py](https://gist.github.com/timm/a87fff1d8f0210372f26). Github token is required when applying the github API. In this repo, my token has been hiden.
 
-### Collecting Issues
+**Collecting Issues**
+
 Issues are a great way to keep track of tasks, enhancements, and bugs for the projects. Through it, we can detect or predict some bad smells. To collect the issues for a project, we can put the dump https://api.github.com/repos/org_name/repo_name/issues/events and them parse the return JSON. For example, I want to get the issues for my own project, I should use the dump https://api.github.com/repos/smartSE/constraintAnalysis/issues/events.  
 
 If it is successful, I can get all the information about the issues, tagged as "id", "url", "html_url", "state", "title", "body", "user", "label", "milestone", "comments", etc.  
 
 This report will discuss how to parse these information in the following section.
 
-### Collection Milestones
+**Collection Milestones**
+
 Typically the developer set a milestone correspond to a project, feature, or time period. Consequently, milestone is an important information in analysing the bad smell.
 
 Similar to collecting the issues, one can fetch the milestones by using the Github API link: https://api.github.com/repos/org_name/repo_name/milestones . Again, take my own project as an example, the dump for extracting my project milestone should be https://api.github.com/repos/smartSE/constraintAnalysis/milestones?state=all. The state here can be all/closed/ open(default). 
 
 The information for a single milestone including "id", "url", "creator", "title", "description", "create_at", "closed_at", etc.
 
-### Collecting Commits
+**Collecting Commits**
+
 There are several commits in a project. Through tracking the commits, we can detect or predict many bad smells.
  Similar to the former two collection, we should use the link https://api.github.com/repos/org_name/repo_name/commits . For example, to get the commits for my own project 1, I should use https://api.github.com/repos/smartSE/constraintAnalysis/commits.
 
 Many parameters can be attached to the url so that we can find more precise result, see the [github api document](https://developer.github.com/v3/repos/commits/).
 
 Common information for a commit includes "url", "author", "committer", "parents", etc. 
+
+**Collecting Labels**
+
+Labels are the tags for the issues, through which the developer can classify their issues. 
+
+Similar to the former two collection, we should use the link https://api.github.com/repos/org_name/repo_name/labels . For example, to get the commits for my own project 1, I should use https://api.github.com/repos/smartSE/constraintAnalysis/labels
+
+Many parameters can be attached to the url so that we can find more precise result, see the [github api document](https://developer.github.com/v3/issues/labels/#list-all-labels-for-this-repository)
+
+Common information for a commit includes "name", "url", "color", etc. 
 
 ## 2.Anonymization
 The main purpose for this repo is to find the bad smells for others, which are widely existed in our own development process. Thus it is the conclusion that matters. All of the names will be hidden to protect the privacy. That is, developers are called "D1", "D2", "D3"; groups are called "G1", "G2", "G3".
@@ -46,6 +59,7 @@ The following table shows how much data I collected for the later analysis.
 |1|Commit Record|510|182|170|
 |2|Issue Record|69|93|78|
 |3|Milestone Record|5|5|7|
+|4|Labels|11|8|9|
 
 ## 5.Data Samples
 
@@ -91,7 +105,33 @@ The actual collected data can be found here:
 
 Milestone is an important develop tool. All times with '-1' indicates "not applicable/not set"  
 
+**4.Label record**
+|Name|Url|Color|
+|bug|https://api.github.com/repos/g2/labels/bug|fc2929|
+|team|discussion|https://api.github.com/g2/labels/team%20discussion|eb6420|
+
+The actual collected data can be found here:  
+* [project1](https://github.com/smartSE/badsmell/blob/master/label/proj1.csv)
+* [project2](https://github.com/smartSE/badsmell/blob/master/label/proj2.csv)
+* [project3](https://github.com/smartSE/badsmell/blob/master/label/proj3.csv)
+
 ## 6.PART I. Feature Detection and Results
+
+### Overview
+|No.|Features|
+|---|--------|
+|1|Commit distribution for the whole team|
+|2|Commit for a single person|
+|3|Not in-time issue|
+|4|Issue creator distribution|
+|5|Weekly issue distribution|
+|6|Labelled issue distribution|
+|7|Number of not labelled issue|
+|8|Not closed issue|
+|9|Label name|
+|10|Number of issues without milestone|
+|11|Number of milestones|
+|12|Milestone duration|
 
 **1.Commit distribution for the whole team**
 
@@ -347,10 +387,27 @@ Project: 0
 Here we focus on the name of labels. A meaningful name can promote the developing process. The label name can be collected as the follow function. Detail code can be found [here](http://sss)
 
 ```python
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+names = []
+for line in reader:
+    [a,b,c] = line
+    names.append(a)
+names.sort()
+print(names)    
+print("===============")
+csvfile.close()
 ```
 
 RESULT:  
 ```
+===LABEL NAMES#===========  
+['Solved', 'bug', 'design', 'develop', 'duplicate', 'enhancement', 'help wanted', 'invalid', 'question', 'test', 'wontfix']  
+===============  
+['Configure Problem', 'Design Problem', 'Test Problem', 'bug', 'fixed', 'help wanted', 'info!', 'wontfix']  
+===============  
+['Testing', 'Training', 'bug', 'enhancement', 'generate script', 'help wanted', 'question', 'task', 'team discussion']  
+===============  
 ```
 
 **10.Number of issues without milestone**
@@ -380,24 +437,64 @@ Project: 42
 
 **11.Number of milestones**
 
-This feature is to get how many milestones the developers have created. Typically one milestone represents one developing step. Too less milestones is not a good thing. The number of milestones can be fetched as follows. Detail code can be found [here](http://sss)
+This feature is to get how many milestones the developers have created. Typically one milestone represents one developing step. Too less milestones is not a good thing. The number of milestones can be fetched as follows. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/milestone/milestoneNum.py)
 
 ```python
+#project 1
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+count = 0
+for line in reader:
+    count += 1
+print(count)
+csvfile.close()
 ```
 
 RESULT:
 ```
+PROJECT 1: 5
+PROJECT 2: 5
+PROJECT 3: 7
 ```
 
 **12.Milestone duration**
 
-For each milestone, this feature indicates the milestone duration. Either too long or too short duration is not good. This feature can be fetched by the following function. Detail code can be found [here](http://sss)
+For each milestone, this feature indicates the milestone duration. Either too long or too short duration is not good. This feature can be fetched by the following function. Detail code can be found [here](https://github.com/smartSE/badsmell/blob/master/milestone/milestoneDuration.py)
 
 ```python
+csvfile = file('proj1.csv','rb')
+reader = csv.reader(csvfile)
+for line in reader:
+    [a,b,c,d] = line
+    days = (long(float(d))-long(float(c)))/(24*3600)
+    print(b+":"+str(int(days)))
+print("===============")
+csvfile.close()
 ```
 
 RESULT:
 ```
+===REPO MILESTONE #===========  
+Beta Launch :9  
+V1:12  
+V2:26  
+System test and Report:24  
+Final release:10  
+===============  
+Test points:-16497  
+Basic Service and Test:10  
+Small Scale Test and Comparison:34  
+Large Scale Test:39  
+Final:39  
+===============  
+Data Collection and Preliminary Analysis:13  
+Tasks for Week#3:13  
+Tasks for 02/27:7  
+Milestone-03/07:3  
+105 Model:10  
+Milestone-03/15:5   
+Milestone-03/30:9  
+===============
 ```
 
 
@@ -472,5 +569,73 @@ G3-M4: Low commit proportion. Possible passenger!
 ```
 
 One should notice that this result is consistent to our intuition.
+
+**4.Poor time management**
+
+Time management including time/effort estimation and plan execution management. Now I can't distinguish them. However, any one of these reasons can lead to overdue issues. The not-in-time tasks do harm to the software developing. Especially when many issues are overdue.
+
+The following [function](https://github.com/smartSE/badsmell/blob/master/funcs/poorTime.py) is a detector for poor time management. This detector is mainly based on the feature 3
+
+```python
+def poorTimeManageDetector(overdue, totalIssue):
+   if overdue/totalIssue > 0.15:
+       return True
+   else:
+       return False
+
+```
+
+RESULT:
+```
+Project 1: Poor Management  
+Project 2: Poor Management  
+Project 3: Poor Management
+```
+
+**4.Not number label**
+
+As was said by Dr. Menzies in the lecture, numbering the labels is a good hibit. The following [function](https://github.com/smartSE/badsmell/blob/master/funcs/numberName.py) can check whether the labels has been numbered.
+
+```python
+def numberLabelDetector(labels):
+    for label in labels:
+        if label[0] >= '0' and label[0] <= '9':
+             continue
+	else:
+             return False
+    return True
+```
+
+RESULT
+```
+Project 1: Not numbered  
+Project 2: Not numbered  
+Project 3: Not numbered  
+```
+
+All teams ignored this!!
+
+**5.Poor Issue management**
+
+Issue management is essential too. They should be closed in time. Also, one should set up a label for it. Consequently, I wrote a detector for detecting poor issues. The [code](http:??) as follows:  
+
+```python
+def poorIssueDetector(totalIssue, notLabelIssue, notcloseIssue):
+    if notcloseIssue > 0:
+	return True
+    if notLabelIssue > 0.2*totalIssue:
+        return True
+    return False
+```
+
+RESULT:
+```
+Project 1: Poor issue management(slightly.)  
+Project 2: Normal  
+Project 3: Poor issue management(too many non-labelled issues)
+```
+
+**6.Lacking milestones**
+
 
 ## 8.PARTIII. Early Warning and Results
