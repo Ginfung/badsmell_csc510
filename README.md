@@ -103,14 +103,23 @@ RESULT:
 The following figures shows the result for the commit distribution of these groups.
 ![](./commit/R_commit_dis_g1.PNG)
 ![](./commit/R_commit_dis_g2.PNG)
-![](./commit/R_commit_dis_g2.PNG)
+![](./commit/R_commit_dis_g3.PNG)
 
 **2.Commit for a single person** 
 
- 
+Another important feature from the commit history is the commit rate for one single person. In the project team, each member should have equal contribution.  
 
-## 7.PARTII. Bad Smells Detection and Results
+The code for fetching commit rate for each person can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/personalCOmmitRate.py).  
 
-## 10.Early Warning
+The following figures shows the commit rate for each person.
 
-## 11.Early Warning Results
+![](./commit/personal_commit_g1.PNG)
+![](./commit/personal_commit_g2.PNG)
+![](./commit/personal_commit_g3.PNG)
+
+
+## 7.PARTII. Bad Smells Detector and Results
+
+
+
+## 8.PARTIII. Early Warning and Results
