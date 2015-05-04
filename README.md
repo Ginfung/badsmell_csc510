@@ -41,7 +41,7 @@ All of the results are stored in different spreadsheets. These spreadsheets are 
 ## 4.Data
 The following table shows how much data I collected for the later analysis.
 
-|No|Feature|G1|G2|G3|
+|No|Data set|G1|G2|G3|
 |------|-------|--------------|--------------|--------------|
 |1|Commit Record|510|182|170|
 |2|s|s|s|s|
@@ -125,7 +125,7 @@ There may exist many bad smells during the developing process. In this section, 
 **1.Uneven commit distribution**  
 
 Through the result of feature1(Commit distribution for the whole team), we can easily know that, to some extend,  the commit distribution is not even for each team. To confirm this, I use the (standard deviation/total commit*project duration) to see whether the commit distribution is even.  
-Code for this detector can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/commitStandardDeviation.py))
+Code for this detector can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/commitStandardDeviation.py)
 
 RESULT:  
 project 1: 0.0843137254902  
@@ -136,7 +136,58 @@ Through this result, we can confidently make a conclusion that all of the three 
 
 **2.Super Leader** 
 
+A super leader may be harmful for a team. The super leader did most of the jobs in a team, which violates the principle of co-operation. For instance, during a team meeting, the team may suffer from cheerleader effect. The following [function](https://github.com/smartSE/badsmell/blob/master/commit/superLeaderDetector.py) is the detector for this.
 
+```python
+def detectSuperLeader(weeklyCommit, totalCommit):
+   if sum(weeklyCommit) > totalCommit*0.3:
+       return True
+   return False
+```
 
+RESULT:  
+project 1: False  
+project 2: False  
+project 3: False  
+
+We're glad to see that there is no super leader among these groups.
+
+**3.Passenger**
+
+Opposite to the super leader, the passenger in a team does more harm in the project. They did not play actively in the developing process and thus reduce the quality of the product/software. We define the passenger as follows:  
+The commit for him is less than 20% of the total commit; OR  
+There were many weeks that they did not have any commit
+
+The detector for the passenger can be found [here](http://passengerdetector)
+
+```python
+def isPassenger(weekCommit, totalCommit)
+    if sum(weekCommit) < totalCommit * 0.2:
+	return True
+    c = 0
+    for i in weekCommit:
+       if i == 0:
+           c += 1
+    if c >=0.25*len(weekCommit):
+        return True
+    reture False
+```
+
+RESULT:
+```
+G1-M1: High commit proportion. Not passenger  
+G1-M2: High commit proportion. Not passenger  
+G1-M3: Zero weekly commit warning. Possible Passenger!  
+G2-M1: High commit proportion. Not passenger  
+G2-M2: High commit proportion. Not passenger  
+G2-M3: Zero weekly commit warning. Possible Passenger!  
+G2-M4: Zero weekly commit warning. Possible Passenger!  
+G3-M1: High commit proportion. Not passenger  
+G3-M2: Zero weekly commit warning. Possible Passenger!  
+G3-M3: Low commit proportion. Possible passenger!  
+G3-M4: Low commit proportion. Possible passenger!
+```
+
+One should notice that this result is consistent to our intuition.
 
 ## 8.PARTIII. Early Warning and Results
