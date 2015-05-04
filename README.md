@@ -109,7 +109,7 @@ The following figures shows the result for the commit distribution of these grou
 
 Another important feature from the commit history is the commit rate for one single person. In the project team, each member should have equal contribution.  
 
-The code for fetching commit rate for each person can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/personalCOmmitRate.py).  
+The code for fetching commit rate for each person can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/personalCommitRate.py).  
 
 The following figures shows the commit rate for each person.
 
@@ -119,6 +119,23 @@ The following figures shows the commit rate for each person.
 
 
 ## 7.PARTII. Bad Smells Detector and Results
+
+There may exist many bad smells during the developing process. In this section, I will discuss some of them basing on the features generated above. Some bad smells can derive from one single feature, while others may need to derive from two features or more.  
+
+**1.Uneven commit distribution**  
+
+Through the result of feature1(Commit distribution for the whole team), we can easily know that, to some extend,  the commit distribution is not even for each team. To confirm this, I use the (standard deviation/total commit*project duration) to see whether the commit distribution is even.  
+Code for this detector can be found [here](https://github.com/smartSE/badsmell/blob/master/commit/commitStandardDeviation.py))
+
+RESULT:  
+project 1: 0.0843137254902  
+project 2: 0.071004659249  
+project 2: 0.0751008549106  
+
+Through this result, we can confidently make a conclusion that all of the three teams had uneven commit history, especially for the group for project 1.
+
+**2.Super Leader** 
+
 
 
 
